@@ -1,7 +1,33 @@
 import express from 'express'
+import './config/congfig.js'
+
+
 
 const app=express()
-const port=5000
+const port=process.env.PORT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 app.listen(port, () => {
