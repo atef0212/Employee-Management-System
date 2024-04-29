@@ -55,7 +55,6 @@ const signup=async (req, res) => {
       password: hashedPassword,
     });
 
-console.log(newUser)
 
   res.status(201).json({ msg: "New user added", newUser:newUser });
   } catch (error) {

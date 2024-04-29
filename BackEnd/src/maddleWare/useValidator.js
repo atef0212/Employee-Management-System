@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
-const useValidator = () => {
-    return [
+const useValidator = 
+     [
       body('name').notEmpty().withMessage('Name is required').notEmpty(),
       body('age').isInt({ min: 18, max: 45 }).withMessage('Age must be between 18 and 45').notEmpty(),
       body('tall').optional().isNumeric().withMessage('Tall must be a number'),
@@ -10,12 +10,12 @@ const useValidator = () => {
       body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long').notEmpty(),
       body('role').optional().isIn(['user', 'admin']).withMessage('Invalid role')
     ];
-  };
+  
 
 
 
-  const employeeValidationRules = () => {
-    return [
+  const employeeValidationRules = 
+     [
       body('salary').notEmpty().isNumeric().withMessage('Salary must be a number'),
       body('vacationDays').notEmpty().isInt().withMessage('Vacation days must be an integer'),
       body('workHours').notEmpty().isInt().withMessage('Work hours must be an integer'),
@@ -23,8 +23,13 @@ const useValidator = () => {
       body('department').notEmpty().withMessage('Department is required').isString().withMessage('Department must be a string'),
       body('Userss').notEmpty().withMessage('User ID is required').isMongoId().withMessage('Invalid user ID')
     ];
-  };
-
+ 
+    const logInValidator= [
+      body("email").isEmail().withMessage("Invalid email format").isLength({ min: 5 }).withMessage("Email must be at least 5 characters long"),
+      body("password").isLength({ min: 5 }).withMessage("Invalid password format")
+    
+    
+    ]
 
 
 /*The validate function you've defined is a middleware
@@ -43,4 +48,4 @@ const validate = (req, res, next) => {
   };
 
 
-  export {validate, useValidator, employeeValidationRules}
+  export {validate, useValidator, employeeValidationRules,logInValidator}
