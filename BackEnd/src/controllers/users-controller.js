@@ -35,10 +35,12 @@ const signup=async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ msg: "Email already exists" });
     }
-    if(email=="che@gmail.com"){
-      const role="admin"
-    }else{
-      const role="user"
+
+
+
+    let role = "user"; 
+    if (email === "che@gmail.com") {
+      role = "admin";
     }
     // Hash the password
     const saltRounds = 10;
@@ -46,6 +48,7 @@ const signup=async (req, res) => {
 
     // Create a new user with hashed password
     const newUser = await userModel.create({
+      email,
       age,
       tall,
       land,
