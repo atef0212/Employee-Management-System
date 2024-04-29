@@ -35,10 +35,9 @@ const signup=async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ msg: "Email already exists" });
     }
-    if(email=="che@gmail.com"){
-      const role="admin"
-    }else{
-      const role="user"
+    let role = "user"; 
+    if (email === "che@gmail.com") {
+      role = "admin";
     }
     // Hash the password
     const saltRounds = 10;
@@ -46,6 +45,7 @@ const signup=async (req, res) => {
 
     // Create a new user with hashed password
     const newUser = await userModel.create({
+      email,
       age,
       tall,
       land,
@@ -55,7 +55,7 @@ const signup=async (req, res) => {
       password: hashedPassword,
     });
 
-
+console.log(newUser)
 
   res.status(201).json({ msg: "New user added", newUser:newUser });
   } catch (error) {
@@ -67,7 +67,58 @@ const signup=async (req, res) => {
 
 
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ msg: "Invalid username or password" });
+    }
+    // Compare the provided password with the hashed password stored in the database
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+      return res.status(401).json({ msg: "Invalid username or password" });
+    }
+
+    // If logIn is successful, generate JWT token
+    const payload = {
+      userId: user.id,
+
+    };
+    const token = jwt.sign(payload, "secretKey", { expiresIn: "1h" });
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ message: "login successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
 
 
 
-export  {getUsers, signup};
+
+
+
+
+const logout = async (req, res) => {
+  try {
+    // Respond with a success message
+    res.clearCookie("token").status(200).json({ message: "logout successful" });
+  } catch (error) {
+    // If token verification fails, or any other error occurs
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
+
+
+export  {getUsers, signup, login, logout};
