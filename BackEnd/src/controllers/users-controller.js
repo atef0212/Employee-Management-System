@@ -1,6 +1,7 @@
 import userModel from "../models/users-Schema.js";
 import employeeModel from "../models/employee-Schema.js";
-
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 const getUsers = async (req, res) => {
   try {
     const users = await userModel.find({}).populate('userData');
@@ -16,4 +17,57 @@ const getUsers = async (req, res) => {
   }
 };
 
-export  {getUsers};
+
+
+
+const signup=async (req, res) => {
+  try {
+    const {  name,
+      age,
+      tall,
+      land,
+      gender,
+      email,
+      password, } = req.body;
+
+    // Check if the email already exists in the database
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ msg: "Email already exists" });
+    }
+    if(email=="che@gmail.com"){
+      const role="admin"
+    }else{
+      const role="user"
+    }
+    // Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create a new user with hashed password
+    const newUser = await userModel.create({
+      age,
+      tall,
+      land,
+      gender,
+      name,
+      role,
+      password: hashedPassword,
+    });
+
+
+
+  res.status(201).json({ msg: "New user added", newUser:newUser });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
+
+
+
+
+
+
+
+export  {getUsers, signup};
