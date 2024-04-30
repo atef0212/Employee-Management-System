@@ -1,73 +1,95 @@
+import conWriter from '../imgs/ContentWriter.png'
+import customerS from '../imgs/CustomerServiceProfessional.webp'
+ import data_scientist_img from '../imgs/DataScientist.webp'
+ import desgin from '../imgs/Designe.png'
+ import des from '../imgs/Designer.jpg'
+import fin from '../imgs/financial.png'
+ import hr from '../imgs/HR.webp'
+// import conWrasiter from '../imgs/ContentWriter.png'
+// import conWsriaater from '../imgs/ContentWriter.png'
+// import conWaarsiter from '../imgs/ContentWriter.png'
+// import conWraaiter from '../imgs/ContentWriter.png'
+
 export const jobOffers = [
     {
       title: "Software Engineer",
       company: "TechCorp",
       salary: "$100,000 - $120,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/software_engineer_img.jpg"
-    },
+      imgURL: data_scientist_img
+
+,
+description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"    },
     {
       title: "Graphic Designer",
       company: "DesignWorks",
       salary: "$50,000 - $60,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/graphic_designer_img.jpg"
-    },
+      imgURL: desgin
+,
+description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"    },
     {
       title: "Marketing Manager",
       company: "BrandBoost",
       salary: "$80,000 - $90,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/marketing_manager_img.jpg"
-    },
+      imgURL: des
+,description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"    },
     {
       title: "Data Scientist",
       company: "DataInsights",
       salary: "$110,000 - $130,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/data_scientist_img.jpg"
+      imgURL: data_scientist_img,
+      description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"
     },
     {
       title: "Sales Representative",
       company: "SalesPro",
       salary: "$60,000 - $70,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/sales_representative_img.jpg"
-    },
+      imgURL:hr
+,
+description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"    },
     {
       title: "Customer Support Specialist",
       company: "SupportHub",
       salary: "$45,000 - $55,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/customer_support_specialist_img.jpg"
+      imgURL: customerS,
+      description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"
     },
     {
       title: "Financial Analyst",
       company: "FinanceTech",
       salary: "$70,000 - $80,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/financial_analyst_img.jpg"
-    },
+      imgURL: fin
+,
+description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"    },
     {
       title: "HR Manager",
       company: "HR Solutions",
       salary: "$75,000 - $85,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/hr_manager_img.jpg"
-    },
+      imgURL: hr
+,
+description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"    },
     {
       title: "UX/UI Designer",
       company: "DesignStudio",
       salary: "$90,000 - $100,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/ux_ui_designer_img.jpg"
-    },
+      imgURL: desgin
+,
+description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"    },
     {
       title: "Content Writer",
       company: "ContentCreators",
       salary: "$40,000 - $50,000",
       workHours: "Full-time",
-      imgURL: "https://example.com/content_writer_img.jpg"
+      imgURL: conWriter
+      ,description:"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta fuga nam, in neque voluptate mollitia consequuntur suscipit laborum, tenetur eligendi natus ullam deleniti maiores maxime? Sunt inventore doloremque eligendi est"
     }
   ];
   
