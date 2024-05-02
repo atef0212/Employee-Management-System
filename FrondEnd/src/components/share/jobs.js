@@ -1,14 +1,11 @@
-import conWriter from '../imgs/ContentWriter.png'
-import customerS from '../imgs/CustomerServiceProfessional.webp'
- import data_scientist_img from '../imgs/DataScientist.webp'
- import desgin from '../imgs/Designe.png'
- import des from '../imgs/Designer.jpg'
-import fin from '../imgs/financial.png'
- import hr from '../imgs/HR.webp'
-// import conWrasiter from '../imgs/ContentWriter.png'
-// import conWsriaater from '../imgs/ContentWriter.png'
-// import conWaarsiter from '../imgs/ContentWriter.png'
-// import conWraaiter from '../imgs/ContentWriter.png'
+import conWriter from './imgs/ContentWriter.png'
+import customerS from './imgs/CustomerServiceProfessional.webp'
+ import data_scientist_img from './imgs/DataScientist.webp'
+ import desgin from './imgs/Designe.png'
+ import des from './imgs/Designer.jpg'
+import fin from './imgs/financial.png'
+ import hr from './imgs/HR.webp'
+
 
 export const jobOffers = [
     {

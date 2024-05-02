@@ -1,19 +1,29 @@
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../share/Context.jsx";
 
-import { useState } from "react";
+
+
+
+
+
 
 function LogIn() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-//const auth=useContext(useDaContext)
+  const { state, dispatch } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
     try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
+
+
+
+      const response = await fetch('http://localhost:5000/api/users/login/', {
         method: "POST",
-        credentials:"include",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json"
         },
@@ -21,32 +31,44 @@ function LogIn() {
       });
 
       if (!response.ok) {
-        // If the response status is not OK, throw an error
         throw new Error('Failed to log in');
       }
       
-      const data = await response.json();
-      // Optionally, you can redirect the user to a new page or show a success message here
-     // auth.setId(data.user._id)
-      console.log(data)
+      const { user, token } = await response.json();
+      dispatch({ type: 'LOGIN', payload: { user, token } });
 
 
+  
+      // Redirect based on user role
+      if (user.role === 'admin') {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/jobOffers", { replace: true });
+      }
 
-      
+
 
     } catch (error) {
       console.error('Login failed:', error);
       setError('Invalid email or password');
-      // Optionally, you can clear the password field here
       setPassword('');
     }
+
+
+     // Check if the user is already logged in
+  if (state.isLoggedIn) {
+    // Redirect to a default page if the user is already logged in
+    navigate("/dashboard", { replace: true });
+    return null; // Render nothing
   }
+  }
+
 
   return (
     <>
-
       <form onSubmit={handleLogin} className="max-w-md mx-auto">
         {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
           <input
@@ -59,6 +81,8 @@ function LogIn() {
             required
           />
         </div>
+
+
         <div className="mb-6">
           <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
           <input
@@ -75,8 +99,13 @@ function LogIn() {
           <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Log In
           </button>
- 
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <Link to="/register">SignUp</Link>
+        </button>
         </div>
+
+
+        
       </form>
     </>
   );

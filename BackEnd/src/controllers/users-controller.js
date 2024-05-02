@@ -84,6 +84,7 @@ const login = async (req, res) => {
     const payload = {
       userId: user.id,
 
+
     };
     const token = jwt.sign(payload, "secretKey", { expiresIn: "1h" });
 
@@ -92,7 +93,7 @@ const login = async (req, res) => {
         httpOnly: true,
       })
       .status(200)
-      .json({ message: "login successfully", user });
+      .json({ message: "login successfully", user , token});
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal Server Error" });

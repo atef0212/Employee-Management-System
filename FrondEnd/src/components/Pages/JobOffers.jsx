@@ -1,4 +1,4 @@
-import { jobOffers } from "../../Api/jobs"
+import { jobOffers } from "../share/jobs.js"
 
 function JobOffers() {
   return (
