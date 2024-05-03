@@ -4,7 +4,7 @@ import { useValidator,logInValidator, validate } from "../maddleWare/useValidato
 import { verifyToken, isAdmin } from "../maddleWare/check-auth.js"
 const userRoute=express.Router()
 
-userRoute.get("/",verifyToken, isAdmin, getUsers)
+userRoute.get("/" , getUsers)
 userRoute.post("/signup",useValidator, validate, signup)
 userRoute.post("/login", logInValidator, validate,login)
 userRoute.post("/logout", logout)
