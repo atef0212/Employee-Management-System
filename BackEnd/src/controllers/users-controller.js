@@ -1,22 +1,66 @@
 import userModel from "../models/users-Schema.js";
-import employeeModel from "../models/employee-Schema.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 const getUsers = async (req, res) => {
+  let users;
   try {
-    const users = await userModel.find({}).populate('userData');
-    const employees = await employeeModel.find({});
+     users = await userModel.find(users)
     
     // Merging users and employees into a single array
-    const allUsers = [...users, ...employees];
-    
-    res.status(200).json({ success: true, users: allUsers });
+
+   
+    res.status(200).json({  users });
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ success: false, message: "Fetching users failed, please try again later." });
   }
 };
 
+const addEmployeeData = async (req, res, next) => {
+  const { salary, vacationDays, workHours, contractLimit, createdAt,updatedAt,department } = req.body;
+  console.log(req.body)
+  const userIdToUpdate = req.params.uid;
+
+  try {
+    const existingUser = await userModel.findById(userIdToUpdate);
+
+    if (!existingUser) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Update user data
+    existingUser.salary = salary;
+    existingUser.vacationDays = vacationDays;
+    existingUser.workHours = workHours;
+    existingUser.contractLimit = contractLimit;
+    existingUser.createdAt = createdAt;
+    existingUser.updatedAt=updatedAt
+    existingUser.department=department
+
+    // Save the updated user data
+    await existingUser.save();
+    
+    // Send response
+    res.status(200).json({ msg: "User data updated successfully" });
+  } catch (error) {
+    // Handle errors
+    console.error("Error updating user data:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+    next(error);
+  }
+};
+
+
+// const addEmployee = async (req, res) => {
+//   try {
+//     // Assuming the request body contains the necessary employee data
+//     const newEmployee = await employeeModel.create(req.body);
+//     res.status(201).json({ success: true, employee: newEmployee });
+//   } catch (error) {
+//     console.error("Error adding employee:", error);
+//     res.status(500).json({ success: false, message: "Adding employee failed, please try again later." });
+//   }
+// };
 
 
 
@@ -121,4 +165,4 @@ const logout = async (req, res) => {
 
 
 
-export  {getUsers, signup, login, logout};
+export  {getUsers, signup, login, logout, addEmployeeData};

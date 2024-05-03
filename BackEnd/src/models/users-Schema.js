@@ -19,7 +19,40 @@ const userSchema= new mongoose.Schema({
     email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 6 },
 
-  userData:[{type: mongoose.Types.ObjectId, ref: "userData"}],
+  salary: {
+    type: Number,
+    required: true
+    ,default:1000
+  },
+  vacationDays: {
+    type: Number,
+    required: true
+    , default:28
+  },
+  workHours: {
+    type: Number,
+    required: true
+    ,
+    default:140
+  },
+  contractLimit: {
+    type: String,
+    required: true,
+    default:"One Year"
+  },
+createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
+  department: { 
+    type: String,
+    required: true,
+    default:"Web Developer"
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],
