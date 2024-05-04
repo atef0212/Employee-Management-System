@@ -15,6 +15,21 @@ const getUsers = async (req, res) => {
     res.status(500).json({ success: false, message: "Fetching users failed, please try again later." });
   }
 };
+const getUserById= async(req, res)=>{
+  const {id}=req.params
+  try{
+    const getUser= await userModel.findById(id)
+    if(!getUser){
+      return res.status(404).json({ msg: "User not found" });
+    }
+    return res.status(200).json({ msg: 'User founded successfully', getUser });
+
+  }
+  catch (error) {
+    console.error('Error finding user:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 const addEmployeeData = async (req, res, next) => {
   const { salary, vacationDays, workHours, contractLimit, createdAt,updatedAt,department } = req.body;
@@ -72,7 +87,7 @@ const deleteUser=async (req, res)=>{
       return res.status(404).json({ error: 'User not found' });
     }
 
-    return res.status(200).json({ message: 'User deleted successfully' });
+    return res.status(200).json({ msg: 'User deleted successfully' });
   } catch (error) {
     console.error('Error deleting user:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -181,4 +196,4 @@ const logout = async (req, res) => {
 
 
 
-export  {getUsers, signup, login, logout, addEmployeeData, deleteUser};
+export  {getUsers, signup, login, logout, addEmployeeData, deleteUser, getUserById};
