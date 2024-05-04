@@ -9,7 +9,7 @@ userRoute.post("/signup",useValidator, validate, signup)
 userRoute.post("/login", logInValidator, validate,login)
 userRoute.put("/update/:id",addEmployeeData)
 userRoute.get("/:id", getUserById)
-userRoute.delete("/dele/:id", deleteUser)
+userRoute.delete("/:id", deleteUser)
 userRoute.post("/logout", logout)
 
 export default userRoute

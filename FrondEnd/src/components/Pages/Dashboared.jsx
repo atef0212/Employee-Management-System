@@ -34,6 +34,23 @@ const [users, setUsers]=useState([])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); 
 
+  const deleteUser = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+        method: 'DELETE'
+      });
+      console.log(response)
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+  
+      // Optionally, you can remove the user from the state after successful deletion
+    //  setUsers(users.filter(user => user._id !== userId));
+    } catch (error) {
+      console.error('Error deleting user:', error.message);
+    }
+  }
+  
 
     return (
       <>
@@ -71,7 +88,7 @@ const [users, setUsers]=useState([])
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr key={index} className="border-b border-gray-200">
+            <tr key={user._id}  className="border-b border-gray-200">
               <td className="px-4 py-2">{index}</td>
               <td className="px-4 py-2">{user.name}</td>
               <td className="px-4 py-2">{user.email}</td>
@@ -93,13 +110,12 @@ const [users, setUsers]=useState([])
                   Edit
                 </button> */}
       
-           
-             {/* <button
+         <button
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                   onClick={() => deleteUser(user._id)}
                 >
                   Delete
-                </button>  */}
+                </button>  
          
               </div>
             
