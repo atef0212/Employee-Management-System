@@ -62,6 +62,22 @@ const addEmployeeData = async (req, res, next) => {
 //   }
 // };
 
+const deleteUser=async (req, res)=>{
+  let {id}=req.params
+  try {
+    const deletedUser = await userModel.findByIdAndDelete(id);
+
+
+    if (!deletedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 
 const signup=async (req, res) => {
@@ -165,4 +181,4 @@ const logout = async (req, res) => {
 
 
 
-export  {getUsers, signup, login, logout, addEmployeeData};
+export  {getUsers, signup, login, logout, addEmployeeData, deleteUser};
