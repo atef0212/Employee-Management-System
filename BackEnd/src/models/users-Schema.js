@@ -1,46 +1,54 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+const { Schema } = mongoose;
+
 const genders = ['male', 'female', 'other'];
 
+const avatarImgSchema = new Schema(
+  {
+    url: {
+      type: String,
+      default: "https://ionicframework.com/docs/img/demos/avatar.svg",
+    },
+    id: String
 
+  },
+  {  id: false }
+);
 
-
-const userSchema= new mongoose.Schema({
-    name: { type: String, required: true },
-    age: { type: Number ,required: true, min: 18, max: 99},
-    tall: { type: Number },
-   land: { type: String , required: true},
-    gender: {
-       type: String,
-       enum: genders,
-       required: true
- },
- //image: { type: String, required: true },
-
-    email: { type: String, required: true, unique: true },
+const userSchema = new Schema({
+  name: { type: String, required: true },
+  age: { type: Number, required: true, min: 18, max: 99 },
+  tall: { type: Number },
+  land: { type: String, required: true },
+  gender: {
+    type: String,
+    enum: genders,
+    required: true
+  },
+  avatarImg: avatarImgSchema,
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 6 },
-
   salary: {
     type: Number,
-    required: true
-    ,default:1000
+    required: true,
+    default: 1000
   },
   vacationDays: {
     type: Number,
-    required: true
-    , default:28
+    required: true,
+    default: 28
   },
   workHours: {
     type: Number,
-    required: true
-    ,
-    default:140
+    required: true,
+    default: 140
   },
   contractLimit: {
     type: String,
     required: true,
-    default:"One Year"
+    default: "One Year"
   },
-createdAt: {
+  createdAt: {
     type: Date,
     default: Date.now
   },
@@ -48,21 +56,17 @@ createdAt: {
     type: Date,
     default: Date.now
   },
-  department: { 
+  department: {
     type: String,
     required: true,
-    default:"Web Developer"
+    default: "Web Developer"
   },
   role: {
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
   }
+});
 
-})
-
-
-
-
- const userModel=mongoose.model("user", userSchema)
- export default userModel
+const userModel = mongoose.model("user", userSchema);
+export default userModel;

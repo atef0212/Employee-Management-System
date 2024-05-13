@@ -34,7 +34,8 @@ const Register = () => {
  const data = await response.json();
 
  alert(data.msg)
-nav("/login" )
+
+
 
 console.log(data)
     } catch (error) {
@@ -48,6 +49,7 @@ console.log(data)
   return (
     <form onSubmit={handleSignup} className="max-w-md mx-auto">
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
       <div className="mb-4">
         <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name</label>
         <input

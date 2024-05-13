@@ -1,6 +1,9 @@
 import userModel from "../models/users-Schema.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { v2 as cloudinary } from "cloudinary";
+
+
 const getUsers = async (req, res) => {
   let users;
   try {
@@ -31,51 +34,50 @@ const getUserById= async(req, res)=>{
   }
 }
 
-const addEmployeeData = async (req, res, next) => {
-  const { salary, vacationDays, workHours, contractLimit, createdAt,updatedAt,department } = req.body;
-  console.log(req.body)
-  const userIdToUpdate = req.params.uid;
+// = async (req, res) => {
+//   const userId = req.params.userId;
+//   const newData = req.body;
 
-  try {
-    const existingUser = await userModel.findById(userIdToUpdate);
-
-    if (!existingUser) {
-      return res.status(404).json({ msg: "User not found" });
-    }
-
-    // Update user data
-    existingUser.salary = salary;
-    existingUser.vacationDays = vacationDays;
-    existingUser.workHours = workHours;
-    existingUser.contractLimit = contractLimit;
-    existingUser.createdAt = createdAt;
-    existingUser.updatedAt=updatedAt
-    existingUser.department=department
-
-    // Save the updated user data
-    await existingUser.save();
-    
-    // Send response
-    res.status(200).json({ msg: "User data updated successfully" });
-  } catch (error) {
-    // Handle errors
-    console.error("Error updating user data:", error);
-    res.status(500).json({ msg: "Internal Server Error" });
-    next(error);
-  }
-};
-
-
-// const addEmployee = async (req, res) => {
 //   try {
-//     // Assuming the request body contains the necessary employee data
-//     const newEmployee = await employeeModel.create(req.body);
-//     res.status(201).json({ success: true, employee: newEmployee });
+//       const updatedUser = await userModel.findByIdAndUpdate(userId, newData);
+//       res.status(200).json(updatedUser);
 //   } catch (error) {
-//     console.error("Error adding employee:", error);
-//     res.status(500).json({ success: false, message: "Adding employee failed, please try again later." });
+//       res.status(500).json({ error: error.message });
 //   }
-// };
+// }
+
+const editEmployeedata= async (req, res, next) => {
+   const { salary, vacationDays } = req.body;
+   console.log(req.body)
+   const userIdToUpdate = req.params.uid;
+
+   try {
+     const existingUser = await userModel.findById(userIdToUpdate);
+
+   
+     
+
+
+     // Update user data
+     existingUser.salary = salary;
+     existingUser.vacationDays = vacationDays;
+  
+
+     // Save the updated user data
+     await existingUser.save();
+    
+     // Send response
+     res.status(200).json({ msg: "User data updated successfully" });
+   } 
+   catch (error) {
+     // Handle errors
+     console.error("Error updating user data:", error);
+     res.status(500).json({ msg: "Internal Server Error" });
+     next(error);
+   }
+ };
+
+
 
 const deleteUser=async (req, res)=>{
   let {id}=req.params
@@ -98,12 +100,13 @@ console.log(deleteUser)
 const signup=async (req, res) => {
   try {
     const {  name,
+    
       age,
       tall,
       land,
       gender,
       email,
-      password, } = req.body;
+      password} = req.body;
 
     // Check if the email already exists in the database
     const existingUser = await userModel.findOne({ email });
@@ -118,6 +121,10 @@ const signup=async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+
+     // Upload avatar image to Cloudinary
+  // const fileImg = await cloudinary.uploader.upload(req.file.path);
+  // const { secure_url, public_id } = fileImg;
     // Create a new user with hashed password
     const newUser = await userModel.create({
       email,
@@ -127,7 +134,13 @@ const signup=async (req, res) => {
       gender,
       name,
       role,
-      password: hashedPassword,
+      password: hashedPassword,   
+    //    avatarImg: {
+        
+    //    url: secure_url,
+    //    id: public_id,
+    //  },
+
     });
 
 
@@ -139,36 +152,66 @@ const signup=async (req, res) => {
 };
 
 
+const uploadAvatarImg = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+    console.log(id)
+    console.log(req.file)
+    const fileImg = await cloudinary.uploader.upload(req.file.path);
+
+    const { secure_url, public_id } = fileImg;
+
+    const userToUpdate = await userModel.findByIdAndUpdate(
+      id,
+      { avatarImg: { url: secure_url, id: public_id } },
+      { new: true }
+    );
+
+    if (!userToUpdate) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    const updatedUser = userToUpdate.toObject();
+    delete updatedUser.password;
+    res.json({ message: "User updated", updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await userModel.findOne({ email });
-    if (!user) {
+    const findUser = await userModel.findOne({ email });
+    if (!findUser) {
       return res.status(404).json({ msg: "Invalid username or password" });
     }
     // Compare the provided password with the hashed password stored in the database
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(password, findUser.password);
 
     if (!validPassword) {
       return res.status(401).json({ msg: "Invalid username or password" });
     }
 
     // If logIn is successful, generate JWT token
-    const payload = {
-      userId: user.id,
+    const user = {
+      userId: findUser._id,
+      role:findUser.role
 
 
     };
-    const token = jwt.sign(payload, "secretKey", { expiresIn: "1h" });
+    const accessToken = jwt.sign(user,"secretKey" , { expiresIn: "1h" });
+ const refreshToken = jwt.sign({ userId: user.userId },"tokenRefreshsecretKey" , { expiresIn: "1d" });
 
     res
-      .cookie("token", token, {
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+      }) .cookie("refreshToken", refreshToken, {
         httpOnly: true,
       })
       .status(200)
-      .json({ message: "login successfully", user , token});
+      .json({ message: "login successfully",user, accessToken, refreshToken });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal Server Error" });
@@ -196,4 +239,4 @@ const logout = async (req, res) => {
 
 
 
-export  {getUsers, signup, login, logout, addEmployeeData, deleteUser, getUserById};
+export  {getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg};

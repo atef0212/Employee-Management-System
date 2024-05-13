@@ -1,27 +1,58 @@
 import jwt from 'jsonwebtoken'
 
 
-// Middleware to verify JWT token
-const verifyToken = (req, res, next) => {
-  // Get token from headers, query parameters, or cookies
-  const token = req.headers.authorization;
+
+
+// Access Token Middleware
+const authenticateToken = (req, res, next) => {
+  // Get the access token from the request headers or cookies
+  const token = req.headers.authorization?.split(' ')[1] || req.cookies.accessToken;
 
   if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
+    return res.status(401).json({ message: 'Access token not provided' });
   }
 
-  // Verify token
-  jwt.verify(token, 'secretKey', (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Failed to authenticate token' });
-    }
-
-    // Save decoded user information in request object
-    req.user = decoded;
+  try {
+    // Verify the access token
+    const decoded = jwt.verify(token, 'secretKey');
+    req.user = decoded; // Store decoded user information in request object
     next();
-  });
+  } catch (error) {
+    return res.status(403).json({ message: 'Invalid token' });
+  }
 };
 
+// Refresh Token Middleware
+const refreshAccessToken = (req, res, next) => {
+  // Check if the access token has expired
+  const token = req.cookies.accessToken;
+  if (!token) {
+    return next(); // No access token found, proceed to the next middleware
+  }
+
+  try {
+    jwt.verify(token, 'secretKey'); // Verify the access token
+    next(); // Access token is still valid, proceed to the next middleware
+  } catch (error) {
+    // Access token has expired, try to refresh it using the refresh token
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+      return res.status(403).json({ message: 'Refresh token not provided' });
+    }
+
+    try {
+      // Verify the refresh token
+      const decoded = jwt.verify(refreshToken, 'tokenRefreshSecretKey');
+      // If refresh token is valid, generate a new access token
+      const newAccessToken = jwt.sign({ userId: decoded.userId }, 'secretKey', { expiresIn: '1h' });
+      // Set the new access token in the response headers or cookies
+      res.cookie('accessToken', newAccessToken, { httpOnly: true });
+      next(); // Proceed to the next middleware
+    } catch (error) {
+      return res.status(403).json({ message: 'Invalid refresh token' });
+    }
+  }
+};
 // Middleware to check if user is admin
 const isAdmin = (req, res, next) => {
   // Check if user's role is admin
@@ -32,4 +63,4 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-export {isAdmin, verifyToken}
+export {isAdmin, refreshAccessToken,authenticateToken}

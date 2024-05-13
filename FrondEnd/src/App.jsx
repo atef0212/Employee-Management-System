@@ -5,6 +5,8 @@ import LogIn from './components/User/login'
 import JobOffers from './components/Pages/JobOffers'
 import Dashboared from './components/Pages/Dashboared'
 import Register from './components/User/Register'
+//import UpdateUserForm from './components/Pages/EditUsers.jsx'
+import UploadImage from './components/User/UploadImage.jsx'
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
     <Route path='/register' element={<Register/>}/>
     <Route path='/jobOffers' element={<JobOffers/>}/>
     <Route path='/dashboard' element={<Dashboared/>}/>
+    {/* <Route path='/edit/:id' element={<UpdateUserForm/>}/> */}
+    <Route path='/uploadImg/:id' element={<UploadImage/>}/>
   </Routes>
 </BrowserRouter>
     </>

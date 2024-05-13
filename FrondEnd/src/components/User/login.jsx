@@ -13,10 +13,10 @@ function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { state, dispatch } = useContext(AuthContext);
+  const auth= useContext(AuthContext);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault(); // Prevent default form submission behavior 
     try {
 
 
@@ -34,13 +34,15 @@ function LogIn() {
         throw new Error('Failed to log in');
       }
       
-      const { user, token } = await response.json();
-      dispatch({ type: 'LOGIN', payload: { user, token } });
+      const { user, accessToken, refreshToken } = await response.json();
+      const role=user.role
+      const userId=user.userId
 
+      auth.dispatch({ type: 'LOGIN', payload: { role:role, userId:userId, token:accessToken, refreshToken } });
+     
 
-  
       // Redirect based on user role
-      if (user.role === 'admin') {
+      if (role === 'admin') {
         navigate("/dashboard", { replace: true });
       } else {
         navigate("/jobOffers", { replace: true });
@@ -55,12 +57,8 @@ function LogIn() {
     }
 
 
-     // Check if the user is already logged in
-  if (state.isLoggedIn) {
-    // Redirect to a default page if the user is already logged in
-    navigate("/dashboard", { replace: true });
-    return null; // Render nothing
-  }
+
+ 
   }
 
 
