@@ -20,13 +20,14 @@ import { cloudinaryMulter } from "../upload-Images.js";
 const userRoute = express.Router();
 
 userRoute.get("/", authenticateToken, getUsers);
-userRoute.post("/signup", useValidator, validate, signup);
+userRoute.post("/signup",cloudinaryMulter.single("image"), useValidator, validate, signup);
 userRoute.post("/login", logInValidator, validate, login);
-userRoute.put("/:id", editEmployeedata);
+userRoute.put("/edit/:id", editEmployeedata);
 userRoute.get("/:id", getUserById);
 userRoute.delete("/:id", deleteUser);
 userRoute.post("/logout", logout);
 userRoute
   .route("/upload-avatar/:id")
   .patch(cloudinaryMulter.single("image"), uploadAvatarImg);
+
 export default userRoute;

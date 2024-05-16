@@ -46,36 +46,30 @@ const getUserById= async(req, res)=>{
 //   }
 // }
 
-const editEmployeedata= async (req, res, next) => {
-   const { salary, vacationDays } = req.body;
-   console.log(req.body)
-   const userIdToUpdate = req.params.uid;
+const editEmployeedata = async (req, res, next) => {
+  const { id } = req.params;
+  const newData = req.body;
 
-   try {
-     const existingUser = await userModel.findById(userIdToUpdate);
+  try {
+    // Find the existing user by ID and update with new data
+    const existingUser = await userModel.findByIdAndUpdate(id, newData, { new: true });
 
-   
-     
+    if (!existingUser) {
+      return res.status(404).json({ msg: "User not found" });
+    }
 
+    // Save the updated user data
+    await existingUser.save();
 
-     // Update user data
-     existingUser.salary = salary;
-     existingUser.vacationDays = vacationDays;
-  
-
-     // Save the updated user data
-     await existingUser.save();
-    
-     // Send response
-     res.status(200).json({ msg: "User data updated successfully" });
-   } 
-   catch (error) {
-     // Handle errors
-     console.error("Error updating user data:", error);
-     res.status(500).json({ msg: "Internal Server Error" });
-     next(error);
-   }
- };
+    // Send response
+    res.status(200).json({ msg: "User data updated successfully", existingUser });
+  } catch (error) {
+    // Handle errors
+    console.error("Error updating user data:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+    next(error);
+  }
+};
 
 
 
@@ -96,37 +90,36 @@ console.log(deleteUser)
   }
 }
 
-
-const signup=async (req, res) => {
+const signup = async (req, res) => {
   try {
-    const {  name,
-    
-      age,
-      tall,
-      land,
-      gender,
-      email,
-      password} = req.body;
+    console.log('Received file:', req.file); // Log the received file
+
+    const { name, age, tall, land, gender, email, password } = req.body;
 
     // Check if the email already exists in the database
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ msg: "Email already exists" });
     }
-    let role = "user"; 
+
+    let role = "user";
     if (email === "che@gmail.com") {
       role = "admin";
     }
+
     // Hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
 
-     // Upload avatar image to Cloudinary
-  // const fileImg = await cloudinary.uploader.upload(req.file.path);
-  // const { secure_url, public_id } = fileImg;
+
+
+    // Upload avatar image to Cloudinary
+    const fileImg = await cloudinary.uploader.upload(req.file.path);
+    const { secure_url, public_id } = fileImg;
+
     // Create a new user with hashed password
-    const newUser = await userModel.create({
+    const newUser = new userModel({
       email,
       age,
       tall,
@@ -134,17 +127,11 @@ const signup=async (req, res) => {
       gender,
       name,
       role,
-      password: hashedPassword,   
-    //    avatarImg: {
-        
-    //    url: secure_url,
-    //    id: public_id,
-    //  },
-
+      password: hashedPassword,
+      avatarImg: { url: secure_url, id: public_id },
     });
-
-
-  res.status(201).json({ msg: "New user added", newUser:newUser });
+    await newUser.save();
+    res.status(201).json({ msg: "New user added", newUser: newUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Internal Server Error" });

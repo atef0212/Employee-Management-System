@@ -1,13 +1,21 @@
 import { createContext, useReducer, useState } from 'react';
 
 
+// Initial state
+const initialState = {
+  isLoggedIn: false,
+  user: null,
+  refreshToken:null,
+  token: null,
 
+
+};
 
 // Reducer function
 const reducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      return { ...state, isLoggedIn:true, role:action.payload.role,userId:action.payload.userId, token: action.payload.token };
+      return { ...state, isLoggedIn:true, refreshToken:action.payload.refreshToken,user:action.payload.user, token: action.payload.token };
     case "LOGOUT":
      
     return { ...state,isLoggedIn:false, user: null, token: null };
@@ -17,15 +25,7 @@ const reducer = (state, action) => {
   }
 };
 
-// Initial state
-const initialState = {
-  isLoggedIn: false,
-  userId: null,
-  role:null,
-  token: null,
 
-
-};
 
 // Create context
 export const AuthContext = createContext();
@@ -34,12 +34,12 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const token=state.token
- const userId=state.userId
+ const user=state.user
   // const role=state.role
   // const isLoggedIn=state.isLoggedIn
 
   return (
-    <AuthContext.Provider value={{  dispatch, token, userId }}>
+    <AuthContext.Provider value={{  dispatch, token, user, state }}>
       {children}
     </AuthContext.Provider>
   );

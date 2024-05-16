@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const nav=useNavigate()
-
+  const nav = useNavigate();
 
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
@@ -14,38 +12,45 @@ const Register = () => {
   const [age, setAge] = useState('');
   const [land, setLand] = useState('');
   const [tall, setTall] = useState('');
+  const [image, setImage] = useState(null);
 
-
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('gender', gender);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('age', age);
+    formData.append('land', land);
+    formData.append('tall', tall);
+    formData.append('image', image);
+
     try {
       const response = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      body: JSON.stringify({ name, gender, email, password,age, land, tall })
-
-    
+        body: formData,
       });
-  
-     
- const data = await response.json();
 
- alert(data.msg)
+      const data = await response.json();
 
-
-
-console.log(data)
+      if (response.ok) {
+        alert(data.msg);
+        nav('/login');
+      } else {
+        setError(data.msg || 'Failed to sign up. Please try again.');
+      }
     } catch (error) {
       console.log('Signup failed:', error);
       setError('Failed to sign up. Please try again.');
     }
   };
 
-
-  
   return (
     <form onSubmit={handleSignup} className="max-w-md mx-auto">
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
@@ -62,34 +67,30 @@ console.log(data)
           required
         />
       </div>
-    <div className="mb-4">
+      <div className="mb-4">
         <label htmlFor="age" className="block text-gray-700 text-sm font-bold mb-2">Age</label>
         <input
           type="number"
-          id="old"
+          id="age"
           value={age}
           onChange={(e) => setAge(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="Enter your age"
           required
         />
-      </div> 
-
-
+      </div>
       <div className="mb-6">
-        <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Tall</label>
+        <label htmlFor="tall" className="block text-gray-700 text-sm font-bold mb-2">Tall</label>
         <input
           type="number"
           id="tall"
           value={tall}
           onChange={(e) => setTall(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Enter your password"
+          placeholder="Enter your height"
           required
         />
       </div>
-
-      
       <div className="mb-4">
         <label htmlFor="gender" className="block text-gray-700 text-sm font-bold mb-2">Gender</label>
         <input
@@ -102,9 +103,8 @@ console.log(data)
           required
         />
       </div>
-      
-       <div className="mb-4">
-        <label htmlFor="country" className="block text-gray-700 text-sm font-bold mb-2">Country</label>
+      <div className="mb-4">
+        <label htmlFor="land" className="block text-gray-700 text-sm font-bold mb-2">Country</label>
         <input
           type="text"
           id="land"
@@ -114,9 +114,7 @@ console.log(data)
           placeholder="Enter your country"
           required
         />
-      </div> 
-      
-
+      </div>
       <div className="mb-4">
         <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
         <input
@@ -141,13 +139,20 @@ console.log(data)
           required
         />
       </div>
- 
+      <div className="mb-4">
+        <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">Avatar</label>
+        <input
+          type="file"
+          id="image"
+          onChange={handleImageChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          required
+        />
+      </div>
       <div className="flex items-center justify-between">
-
         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
           Sign Up
         </button>
-   
       </div>
     </form>
   );

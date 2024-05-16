@@ -1,26 +1,18 @@
+// LogIn.jsx
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../share/Context.jsx";
-
-
-
-
-
-
 
 function LogIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const auth= useContext(AuthContext);
+  const auth = useContext(AuthContext);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior 
+    e.preventDefault();
     try {
-
-
-
       const response = await fetch('http://localhost:5000/api/users/login/', {
         method: "POST",
         credentials: "include",
@@ -33,34 +25,23 @@ function LogIn() {
       if (!response.ok) {
         throw new Error('Failed to log in');
       }
-      
+
       const { user, accessToken, refreshToken } = await response.json();
-      const role=user.role
-      const userId=user.userId
 
-      auth.dispatch({ type: 'LOGIN', payload: { role:role, userId:userId, token:accessToken, refreshToken } });
-     
+      auth.dispatch({ type: 'LOGIN', payload: { user, token: accessToken, refreshToken:refreshToken } });
 
-      // Redirect based on user role
-      if (role === 'admin') {
+      if (user.role === 'admin') {
         navigate("/dashboard", { replace: true });
       } else {
-        navigate("/jobOffers", { replace: true });
+        navigate("/profilePage", { replace: true });
       }
-
-
 
     } catch (error) {
       console.error('Login failed:', error);
       setError('Invalid email or password');
       setPassword('');
     }
-
-
-
- 
-  }
-
+  };
 
   return (
     <>
@@ -80,7 +61,6 @@ function LogIn() {
           />
         </div>
 
-
         <div className="mb-6">
           <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
           <input
@@ -98,12 +78,9 @@ function LogIn() {
             Log In
           </button>
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          <Link to="/register">SignUp</Link>
-        </button>
+            <Link to="/register">SignUp</Link>
+          </button>
         </div>
-
-
-        
       </form>
     </>
   );

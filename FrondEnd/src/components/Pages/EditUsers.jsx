@@ -1,92 +1,137 @@
-import  { useState } from "react";
-import { useParams } from "react-router-dom";
+// EditUser.jsx
+import { useContext, useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../share/Context.jsx';
 
-function EditUsers() {
-  const [formData, setFormData] = useState({
-    salary: "",
-   vacationDays: ""
+function EditUser() {
+  const { id } = useParams(); // Get the user ID from the URL parameters
+  const { state } = useContext(AuthContext);
+  const { token } = state;
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  });
-console.log(formData.salary)
-  const { id } = useParams();
-  console.log(id);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+        const data = await response.json();
+        setUser(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+        setError('Failed to fetch user data');
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [id, token]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch(`http://localhost:5000/api/users/${id}`, {
-        method: "PUT",
+      const response = await fetch(`http://localhost:5000/api/users/edit/${id}`, {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(user)
       });
-      console.log("User data updated successfully");
+      if (!response.ok) {
+        throw new Error('Failed to update user');
+      }
+      navigate('/dashboard');
     } catch (error) {
-      console.error("Error updating user data:", error);
+      console.error('Error updating user:', error.message);
+      setError('Failed to update user');
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Edit User</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
         <input
           type="text"
-          placeholder="Salary"
-          name="salary"
-          value={formData.salary}
-          onChange={handleChange}
+          name="name"
+          value={user.name}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
         <input
-          type="text"
-          placeholder="Vacation Days"
-          name="vacationDays"
-          value={formData.vacationDays}
-          onChange={handleChange}
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {/* <input
-          type="text"
-          placeholder="Work Hours"
-          name="workHours"
-          value={formData.workHours}
-          onChange={handleChange}
-        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Land</label>
         <input
-          type="text"
-          placeholder="Contract Limit"
-          name="contractLimit"
-          value={formData.contractLimit}
-          onChange={handleChange}
+          type="email"
+          name="email"
+          value={user.land}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">image</label>
         <input
-          type="text"
-          placeholder="Created At"
-          name="createdAt"
-          value={formData.createdAt}
-          onChange={handleChange}
+          type="email"
+          name="email"
+          value={user.image}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">gender</label>
         <input
-          type="text"
-          placeholder="Updated At"
-          name="updatedAt"
-          value={formData.updatedAt}
-          onChange={handleChange}
+          type="email"
+          name="email"
+          value={user.gender}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        <input
-          type="text"
-          placeholder="Department"
-          name="department"
-          value={formData.department}
-          onChange={handleChange}
-        /> */}
-        <button type="submit">Update Employee</button>
-      </form>
-    </>
+      </div>
+
+      <button
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Save Changes
+      </button>
+    </form>
   );
 }
 
-export default EditUsers;
+export default EditUser;
