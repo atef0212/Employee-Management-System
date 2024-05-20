@@ -55,6 +55,7 @@ function EditUser() {
       if (!response.ok) {
         throw new Error('Failed to update user');
       }
+      alert("User data updated successfully")
       navigate('/dashboard');
     } catch (error) {
       console.error('Error updating user:', error.message);
@@ -96,28 +97,19 @@ function EditUser() {
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Land</label>
         <input
-          type="email"
+          type="text"
           name="email"
           value={user.land}
           onChange={handleInputChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">image</label>
-        <input
-          type="email"
-          name="email"
-          value={user.image}
-          onChange={handleInputChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
+
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">gender</label>
         <input
-          type="email"
-          name="email"
+          type="text"
+          name="gender"
           value={user.gender}
           onChange={handleInputChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
