@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
-
+import { faAirbnb } from "@fortawesome/free-brands-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 function Header() {
   return (
 <>
@@ -21,7 +22,7 @@ function Header() {
                 </div> */}
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div className="flex space-x-4">
-                        <Link to="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</Link>
+                        <Link to="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"><FontAwesomeIcon icon={faAirbnb} /></Link>
                         <Link to="/profilePage" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Jobs</Link>
                         <Link to="/uploadImg" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Upload Image</Link>
 
