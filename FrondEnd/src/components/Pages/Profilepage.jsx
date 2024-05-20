@@ -1,73 +1,161 @@
-import { useContext, useEffect, useState } from "react";
+import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from "../share/Context.jsx";
-import Logout from "../User/Logout.jsx";
-function ProfilePage() {
-  const { user, token }  = useContext(AuthContext);
-  const [profileData, setProfileData] = useState(null); // Change to null for better initial state handling
+import Logout from '../User/Logout';
+
+const UserProfile = () => {
+  const [userd, setUser] = useState(null);
+  const [editData, setEditData] = useState(null);
+  const { user, token } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchProfileData = async () => {
+    const fetchUser = async () => {
+      if (!user) return;  // Check if user is available
       try {
         const response = await fetch(`http://localhost:5000/api/users/${user.userId}`, {
           headers: {
-            "Authorization": `Bearer ${token}`
-          }
+            'Authorization': `Bearer ${token}`,
+          },
         });
-        if (!response.ok) {
-          throw new Error('Failed to fetch profile data');
-        }
         const data = await response.json();
-        const profData=data.getUser
-        setProfileData(profData); // Set the received data to state
-        console.log(data)
+        const profData = data.getUser;
+        setUser(profData);
+        console.log(profData);
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.error('There was an error fetching the user!', error);
       }
     };
 
-    if (user) {
-      fetchProfileData();
-    }
-  }, [user, token]);
+    fetchUser();
+  }, [user, token]);  // Dependency array to avoid infinite loop
 
-  if (!profileData) {
-    return <div>Loading...</div>; // Show loading state until data is fetched
-  }
-  console.log(profileData)
+  const handleEditChange = (e) => {
+    setEditData({ ...editData, [e.target.name]: e.target.value });
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/edit/${user.userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(editData),
+      });
+      const data = await response.json();
+      if (data.msg === 'User data updated successfully') {
+        setUser(data.existingUser);
+        alert(data.msg)
+        setEditData(null);
+      }
+    } catch (error) {
+      console.error('There was an error updating the user!', error);
+    }
+  };
 
   return (
-  <>
-      <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Profile</h1>
-      <div className="flex justify-center mb-4">
-        <img className="w-24 h-24 rounded-full object-cover border-2 border-gray-300" src={profileData.avatarImg.url} alt="Profile Avatar"/>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-700">Name:</strong> <span className="text-gray-900">{profileData.name}</span>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-700">Tall:</strong> <span className="text-gray-900">{profileData.tall}</span>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-700">Age:</strong> <span className="text-gray-900">{profileData.age}</span>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-700">Gender:</strong> <span className="text-gray-900">{profileData.gender}</span>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-700">Land:</strong> <span className="text-gray-900">{profileData.land}</span>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-700">salary:</strong> <span className="text-gray-900">{profileData.salary}</span>
-      </div>
-     
-    </div>
-  </div>
-  <div className=" absolute top-0"><Logout/></div>
-  </>
-  
-  );
-}
+<>
+<Logout/>
 
-export default ProfilePage;
+<div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">User Profile</h1>
+      {userd ? (
+        <div className="bg-white shadow-md rounded-lg p-6">
+          {editData ? (
+            <form onSubmit={handleEditSubmit} className="space-y-4">
+              <input
+                type="text"
+                name="name"
+                value={editData.name}
+                onChange={handleEditChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="Name"
+              />
+              <input
+                type="number"
+                name="age"
+                value={editData.age}
+                onChange={handleEditChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="Age"
+              />
+              <input
+                type="number"
+                name="tall"
+                value={editData.tall}
+                onChange={handleEditChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="Tall"
+              />
+              <input
+                type="text"
+                name="land"
+                value={editData.land}
+                onChange={handleEditChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="Land"
+              />
+              <select
+                name="gender"
+                value={editData.gender}
+                onChange={handleEditChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <input
+                type="email"
+                name="email"
+                value={editData.email}
+                onChange={handleEditChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="Email"
+              />
+              <div className="flex space-x-4">
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditData(null)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <img src={userd.avatarImg.url} alt="Profile Avatar" className="w-16 h-16 rounded-full" />
+                <div>
+                  <p className="text-lg font-semibold">Name: {userd.name}</p>
+                  <p>Age: {userd.age}</p>
+                  <p>Tall: {userd.tall}</p>
+                  <p>Land: {userd.land}</p>
+                  <p>Gender: {userd.gender}</p>
+                  <p>Email: {userd.email}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setEditData(userd)}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Edit Profile
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500">Loading...</p>
+      )}
+    </div>
+</>
+   
+  );
+};
+
+export default UserProfile;
