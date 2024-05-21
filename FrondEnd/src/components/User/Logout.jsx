@@ -12,7 +12,7 @@ const navigate=useNavigate()
 
 
    dispatch({type:"LOGOUT"})
-        navigate("/login",{replace:true})
+        navigate("/",{replace:true})
 
   };
 

@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom"
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons/faUserPlus"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 function Header() {
   return (
 <>
@@ -22,10 +20,10 @@ function Header() {
                 </div> */}
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div className="flex space-x-4">
-                        <Link to="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"><FontAwesomeIcon icon={faUserPlus} size="xl" style={{color: "#74C0FC",}} /></Link>
+                        <Link to="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"></Link>
                     
-                        {/* <Link to="/uploadImg" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Upload Image</Link> */}
-                        {/* <Link to="/jobOffers" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Jobs</Link> */}
+                      {/* <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</Link>  */}
+                         <Link to="/worker" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">worker</Link> 
 
                         
                     </div>

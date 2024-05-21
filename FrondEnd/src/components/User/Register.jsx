@@ -41,7 +41,7 @@ const Register = () => {
 
       if (response.ok) {
         alert(data.msg);
-        nav('/login');
+        nav('/');
       } else {
         setError(data.msg || 'Failed to sign up. Please try again.');
       }
