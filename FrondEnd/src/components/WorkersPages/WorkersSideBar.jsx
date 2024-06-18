@@ -13,31 +13,27 @@ function WorkersSideBar() {
                 },
             });
             const data = await response.json();
-            const usersData=data.users
-            console.log("user",usersData)
+            const usersData = data.users;
+            console.log("user", usersData);
             setUsers(usersData);
         };
         getAllUsers();
     }, [token]);
 
     return (
-        <>   
+        <div className="p-4 bg-gray-100 h-full w-[20%] mt-4">
             <div className="space-y-4">
                 {users.map((user) => (
-                    <div key={user.id} className="flex items-center space-x-4">
-                        <img src={user.avatarImg.url} alt="Profile Avatar" className="w-16 h-16 rounded-full" />
+                    <div key={user.id} className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md">
+                        <img src={user.avatarImg.url} alt="Profile Avatar" className="w-16 h-16 rounded-full object-cover" />
                         <div>
                             <p className="text-lg font-semibold">Name: {user.name}</p>
-                            <p>Age: {user.age}</p>
-                            <p>Height: {user.height}</p>
-                            <p>Country: {user.country}</p>
-                            <p>Gender: {user.gender}</p>
-                            <p>Email: {user.email}</p>
+                            <p className="text-sm text-gray-600">Country: {user.country}</p>
                         </div>
                     </div>
                 ))}
             </div>
-        </>
+        </div>
     );
 }
 

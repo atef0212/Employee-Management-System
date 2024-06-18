@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../share/Context.jsx";
+import { AuthContext } from "../share/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+
 function LogIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -27,14 +28,14 @@ function LogIn() {
         throw new Error('Failed to log in');
       }
 
-      const { user, accessToken, refreshToken } = await response.json();
+      const { user, accessToken } = await response.json();
 
-      auth.dispatch({ type: 'LOGIN', payload: { user, token: accessToken, refreshToken:refreshToken } });
+      auth.dispatch({ type: 'LOGIN', payload: { user, token: accessToken  } });
 
       if (user.role === 'admin') {
         navigate("/dashboard", { replace: true });
       } else {
-        navigate("/worker", { replace: true });
+        navigate("/homeWorker", { replace: true });
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -50,7 +51,7 @@ function LogIn() {
   return (
     <>
       <div onClick={handleSideBar} className="mt-[-106%] ml-72">
-      <FontAwesomeIcon  icon={faUserPlus} size="xl" style={{color: "#74C0FC",}} />
+        <FontAwesomeIcon icon={faUserPlus} size="xl" style={{ color: "#74C0FC" }} />
       </div>
       <div className={`fixed top-0 left-0 h-full transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} w-[250px] bg-gray-900 text-white`}>
         <form onSubmit={handleLogin} className="p-4">

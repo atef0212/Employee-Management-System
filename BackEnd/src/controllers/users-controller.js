@@ -222,8 +222,25 @@ const logout = async (req, res) => {
 };
 
 
+const comment=async (req, res) => {
+  const userId = req.params.id;
+  const { comment } = req.body;
 
 
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.comments.push(comment);
+    await user.save();
+
+    res.status(200).json({ message: 'Comment added successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+}
 
 
-export  {getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg};
+export  {getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg,comment};

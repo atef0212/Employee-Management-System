@@ -28,6 +28,7 @@ const userSchema = new Schema({
   avatarImg: avatarImgSchema,
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 6 },
+
   salary: {
     type: Number,
     required: true,
@@ -65,6 +66,9 @@ const userSchema = new Schema({
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
+  },
+  comment:{
+   type: mongoose.Types.ObjectId,  ref:"comment"
   }
 });
 
