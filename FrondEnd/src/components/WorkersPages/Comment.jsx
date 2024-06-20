@@ -5,15 +5,23 @@ function Comment() {
   const { token, user } = useContext(AuthContext);
   const [comment, setComment] = useState('');
 
+  console.log('Token from context:', token); // Debugging statement
+  console.log('User from context:', user); // Debugging statement
+
   const handleCommentSubmit = async () => {
+    if (!token || !user) {
+      console.error('Token or user is not available');
+      return;
+    }
+
     try {
-      const response = await fetch(`http://localhost:5000/api/users/comments/${user.userId}`, {
+      const response = await fetch(`http://localhost:5000/api/comment/${user.userId}/comment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ comment }),
+        body: JSON.stringify({ comments: comment }), // Note the change to { comments: comment }
       });
 
       if (response.ok) {
@@ -29,7 +37,8 @@ function Comment() {
   };
 
   return (
-    <div>
+  <>
+      <div>
       <textarea
         value={comment}
         onChange={(e) => setComment(e.target.value)}
@@ -39,6 +48,7 @@ function Comment() {
       />
       <button onClick={handleCommentSubmit}>Submit Comment</button>
     </div>
+  </>
   );
 }
 

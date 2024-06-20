@@ -23,31 +23,29 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Refresh Token Middleware
-const refreshAccessToken = (req, res, next) => {
-  // Check if the access token has expired
+const refreshAccessToken  = (req, res, next) => {
   const token = req.cookies.accessToken;
+
   if (!token) {
     return next(); // No access token found, proceed to the next middleware
   }
 
   try {
-    jwt.verify(token, 'secretKey'); // Verify the access token
+    jwt.verify(token, 'secretKey');
     next(); // Access token is still valid, proceed to the next middleware
   } catch (error) {
-    // Access token has expired, try to refresh it using the refresh token
     const refreshToken = req.cookies.refreshToken;
+
     if (!refreshToken) {
       return res.status(403).json({ message: 'Refresh token not provided' });
     }
 
     try {
-      // Verify the refresh token
       const decoded = jwt.verify(refreshToken, 'tokenRefreshSecretKey');
-      // If refresh token is valid, generate a new access token
       const newAccessToken = jwt.sign({ userId: decoded.userId }, 'secretKey', { expiresIn: '1h' });
-      // Set the new access token in the response headers or cookies
+
       res.cookie('accessToken', newAccessToken, { httpOnly: true });
-      next(); // Proceed to the next middleware
+      next();
     } catch (error) {
       return res.status(403).json({ message: 'Invalid refresh token' });
     }

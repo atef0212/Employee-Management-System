@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Logout from "../User/Logout";
 import WorkersSideBar from "./WorkersSideBar";
 import Comment from "./Comment";
+import AllComments from "./Allcomments";
 
 function Home() {
   console.log(Comment)
@@ -61,7 +62,7 @@ function Home() {
         <WorkersSideBar />
       </div>
       <Comment/>
-
+    <AllComments/>
    
     </>
   );

@@ -39,6 +39,12 @@ const userSchema = new Schema({
     required: true,
     default: 28
   },
+  comments: {
+    type: String,
+    required: false,
+    minlength:6,
+    maxlength:25
+  },
   workHours: {
     type: Number,
     required: true,
@@ -67,10 +73,11 @@ const userSchema = new Schema({
     enum: ['user', 'admin'],
     default: 'user'
   },
-  comment:{
-   type: mongoose.Types.ObjectId,  ref:"comment"
-  }
+  comments: [{
+    type: mongoose.Types.ObjectId,
+    ref: "comment"
+  }]
 });
 
-const userModel = mongoose.model("user", userSchema);
+const userModel = mongoose.model("User", userSchema);
 export default userModel;

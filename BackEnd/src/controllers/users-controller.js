@@ -1,5 +1,6 @@
 import userModel from "../models/users-Schema.js";
 import bcrypt from 'bcrypt'
+import commentModel from "../models/comment-Schema.js";
 import jwt from 'jsonwebtoken'
 import { v2 as cloudinary } from "cloudinary";
 
@@ -189,7 +190,7 @@ const login = async (req, res) => {
 
     };
     const accessToken = jwt.sign(user,"secretKey" , { expiresIn: "1h" });
- const refreshToken = jwt.sign({ userId: user.userId },"tokenRefreshsecretKey" , { expiresIn: "1d" });
+ const refreshToken = jwt.sign({ userId: user.userId },"tokenRefreshsecretKey" , { expiresIn: "7d" });
 
     res
       .cookie("accessToken", accessToken, {
@@ -221,26 +222,54 @@ const logout = async (req, res) => {
   }
 };
 
-
-const comment=async (req, res) => {
-  const userId = req.params.id;
-  const { comment } = req.body;
-
-
+const comment = async (req, res) => {
   try {
+    const userId = req.params.userId;
+    const { comments } = req.body;
+
+    const newComment = new commentModel({
+      userId: userId,
+      content: comments,
+    });
+
+    await newComment.save();
+
     const user = await userModel.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    user.comments.push(comment);
+    user.comments.push(newComment._id);
     await user.save();
 
-    res.status(200).json({ message: 'Comment added successfully', user });
+    return res.status(200).json({ message: "Comment added successfully", comment: newComment });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    console.error("Error adding comment:", error);
+    return res.status(500).json({ message: "Comment not added", error: error.message });
+  }
+};
+const getComment = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await userModel.findById(userId).populate('comments');
+    console.log("user", user)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.status(200).json({ comments: user.comments });
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    return res.status(500).json({ message: 'Error fetching comments', error: error.message });
+  }
+};
+const getAllcomments = async (req, res) => {
+  try {
+    const comments = await commentModel.find()
+    res.status(200).json({ comments });
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ message: 'Error fetching comments', error: error.message });
   }
 }
-
-
-export  {getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg,comment};
+export  {getComment,getAllcomments,getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg,comment};

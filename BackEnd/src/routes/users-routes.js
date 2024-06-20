@@ -7,8 +7,8 @@ import {
   editEmployeedata,
   deleteUser,
   getUserById,
-  uploadAvatarImg,
-  comment,
+  uploadAvatarImg,getComment
+
 } from "../controllers/users-controller.js";
 import {
   useValidator,
@@ -27,8 +27,7 @@ userRoute.put("/edit/:id", editEmployeedata);
 userRoute.get("/:id", getUserById);
 userRoute.delete("/:id", deleteUser);
 userRoute.post("/logout", logout);
-userRoute.post("/comment/:id", authenticateToken, comment);
-userRoute
+userRoute.get("/:userId//comment",getComment )
   .route("/upload-avatar/:id")
   .patch(cloudinaryMulter.single("image"), uploadAvatarImg);
 

@@ -5,20 +5,29 @@ import { connect } from './db-connection.js'
 import userRoute from './src/routes/users-routes.js'
 import './config/congfig.js'
 import { refreshAccessToken } from './src/maddleWare/check-auth.js'
-
+import commentRoute from './src/routes/comment-routes.js'
+import cookieParser from 'cookie-parser'
 
 const app=express()
 app.use(bodyParser.json())
+app.use(cookieParser());
 
 app.use(cors({
-  origin:["http://localhost:5173"],
+  origin:["http://localhost:5173", "https://employee-management-system-5ug8.onrender.com"],
   methods:["GET","POST","DELETE","PUT"],
   credentials:true
 }))
-app.use('/api/users', userRoute);
 
 // Apply refresh token middleware to all routes
-app.use(refreshAccessToken)
+app.use(refreshAccessToken);
+
+
+
+app.use("/api/comment", commentRoute)
+app.use('/api/users', userRoute);
+
+
+
   connect()
 
 
