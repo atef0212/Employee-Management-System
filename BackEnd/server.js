@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 app.use(cookieParser());
 
 app.use(cors({
-  origin:["http://localhost:5173", "https://employee-management-system-5ug8.onrender.com"],
+  origin:["http://localhost:5173", "https://employee-management-system-ogvu.onrender.com"],
   methods:["GET","POST","DELETE","PUT"],
   credentials:true
 }))
