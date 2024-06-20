@@ -38,7 +38,7 @@ function Comment() {
 
   return (
   <>
-      <div>
+      <div className='border-2 border-black w-[35%] absolute top-[15%] left-[30%] flex flex-col justify-center align-middle'>
       <textarea
         value={comment}
         onChange={(e) => setComment(e.target.value)}
@@ -46,7 +46,12 @@ function Comment() {
         rows="4"
         cols="50"
       />
-      <button onClick={handleCommentSubmit}>Submit Comment</button>
+           <button 
+        onClick={handleCommentSubmit} 
+        className="mt-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Submit Comment
+      </button>
     </div>
   </>
   );
