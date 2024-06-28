@@ -21,6 +21,9 @@ app.use(cors({
 // Apply refresh token middleware to all routes
 app.use(refreshAccessToken);
 
+app.get('/api', (req, res) => {
+  res.send('Hello from the backend!');
+});
 
 
 app.use("/api/comment", commentRoute)
