@@ -11,7 +11,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-      "is-shared-array-buffer": "1.0.3",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
@@ -36,6 +35,5 @@
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.0"
-    
   }
 }
