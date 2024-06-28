@@ -15,7 +15,7 @@ function EditUser() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/users/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -44,7 +44,7 @@ function EditUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/edit/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/users/edit/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

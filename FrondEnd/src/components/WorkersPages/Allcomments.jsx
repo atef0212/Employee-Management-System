@@ -14,7 +14,7 @@ function AllComments() {
       }
 
       try {
-        const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/comment', {
+        const response = await fetch('http://localhost:5000/api/comment', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
