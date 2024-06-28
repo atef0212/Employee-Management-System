@@ -5,6 +5,7 @@ import 'tailwindcss/tailwind.css'; // Import Tailwind CSS
 function AllComments() {
   const { token } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
+
   useEffect(() => {
     const fetchComments = async () => {
       if (!token) {
@@ -13,7 +14,7 @@ function AllComments() {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/comment', {
+        const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/comment', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -24,7 +25,14 @@ function AllComments() {
 
         if (response.ok) {
           const data = await response.json();
-          setComments(data.comments);
+          console.log(data)
+          const dataC = data.comments;
+   
+
+          // Sort comments by createdAt in descending order
+       //   dataC.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+console.log(dataC)
+          setComments(dataC);
         } else {
           const errorData = await response.json();
           console.error('Error fetching comments:', errorData.message);
@@ -43,7 +51,6 @@ function AllComments() {
       {comments.length > 0 ? (
         comments.slice(0, 7).map((comment) => (
           <div key={comment._id} className="p-4 mb-4 border-b border-gray-300">
-        
             <p className="text-lg mb-2">{comment.content}</p>
             <small className="text-gray-500">{new Date(comment.createdAt).toLocaleString()}</small>
           </div>

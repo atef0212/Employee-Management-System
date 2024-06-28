@@ -11,7 +11,8 @@ const useValidator =
       body('role').optional().isIn(['user', 'admin']).withMessage('Invalid role')
     ];
   
-
+const commentVali=[      body('text').notEmpty().withMessage('text is required')
+]
 
 
   const employeeValidationRules = 
@@ -48,4 +49,4 @@ const validate = (req, res, next) => {
   };
 
 
-  export {validate, useValidator, employeeValidationRules,logInValidator}
+  export {validate, useValidator, employeeValidationRules,logInValidator, commentVali}
