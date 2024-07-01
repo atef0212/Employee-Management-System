@@ -12,6 +12,7 @@ const app=express()
 app.use(bodyParser.json())
 app.use(cookieParser());
 
+console.log("hello World")
 app.use(cors({
   origin:["http://localhost:5173", "https://employee-management-system-ogvu.onrender.com"],
   methods:["GET","POST","DELETE","PUT"],
