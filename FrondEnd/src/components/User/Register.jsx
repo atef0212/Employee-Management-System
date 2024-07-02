@@ -32,7 +32,7 @@ const Register = () => {
     formData.append('image', image);
 
     try {
-      const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/users/signup', {
+      const response = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
         body: formData,
       });
