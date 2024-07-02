@@ -15,7 +15,7 @@ function Comment() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/comment/${user.userId}/comment`, {
+      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/comment/${user.userId}/comment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
