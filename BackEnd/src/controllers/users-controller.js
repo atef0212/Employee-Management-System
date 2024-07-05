@@ -271,7 +271,6 @@ const getAllcomments = async (req, res) => {
         select: 'name avatarImg.url' // Only select the name and avatar image URL fields
       })
       .exec();
-
     res.status(200).json(comments);
   } catch (err) {
     res.status(500).json({ message: err.message });
