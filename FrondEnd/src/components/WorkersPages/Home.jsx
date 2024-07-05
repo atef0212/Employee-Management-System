@@ -3,6 +3,7 @@ import Logout from "../User/Logout";
 import WorkersSideBar from "./WorkersSideBar";
 import Comment from "./Comment";
 import AllComments from "./Allcomments";
+import UserProfile from "../Pages/Profilepage";
 
 function Home() {
   console.log(Comment)
@@ -26,18 +27,13 @@ function Home() {
             
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                <Link
-                    to="/homeWorker"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                  >
-                    Home
-                  </Link>
-                  <Link
+            
+                  {/* <Link
                       to="/profilePage"
                       className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >
                       Profile 
-                    </Link>
+                    </Link> */}
                     <Link
                       to="/dashboard"
                       className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
@@ -67,6 +63,7 @@ function Home() {
       </div>
       <Comment/>
     <AllComments/>
+    <UserProfile/>
    
     </>
   );

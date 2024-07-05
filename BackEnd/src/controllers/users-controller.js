@@ -277,42 +277,43 @@ const getAllcomments = async (req, res) => {
   }
 }
 const editComment = async (req, res, next) => {
-  const userId = req.params.userId; // assuming the comment ID is passed as a URL parameter
-  const { text } = req.body;
-  console.log(req.body)
+  const { id } = req.params;
+  const {text } = req.body;
 
   try {
-    // Update the comment
-    const updatedComment = await commentModel.findByIdAndUpdate(userId, { text: newText },
-      { new: true, runValidators: true });
+    // Find the existing user by ID and update with new data
+    const existingUser = await userModel.findByIdAndUpdate(id, text, { new: true });
 
-    if (!updatedComment) {
-      return res.status(404).json({ message: 'Comment not found' });
+    if (!existingUser) {
+      return res.status(404).json({ msg: "User not found" });
     }
 
+    // Save the updated user data
+    await existingUser.save();
+
     // Send response
-    res.status(200).json({ msg: "Comment updated successfully", updatedComment });
-    console.log(updatedComment);
-    console.log(text)
+    res.status(200).json({ msg: "User data updated successfully", existingUser });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Handle errors
+    console.error("Error updating user data:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
     next(error);
   }
 };
 
-const deleteComment=async (req, res) => {
+const deleteComment= async (req, res) => {
   try {
-      const userId = req.params.userId;
+    const { userId, commentId } = req.params;
 
-      const deletedComment = await commentModel.findByIdAndDelete(userId);
+    const deletedComment = await commentModel.findByIdAndDelete(commentId);
 
-      if (!deletedComment) {
-          return res.status(404).json({ message: 'Comment not found' });
-      }
+    if (!deletedComment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
 
-      res.json({ message: 'Comment deleted successfully' });
+    res.json({ message: 'Comment deleted successfully' });
   } catch (err) {
-      res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 }
 export  {getComment,getAllcomments,getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg,comment, editComment, deleteComment};

@@ -5,7 +5,7 @@ import { comment, getAllcomments, editComment, deleteComment } from "../controll
 const commentRoute=exress.Router()
 
 commentRoute.post("/:userId/comment",authenticateToken, comment);
-commentRoute.put("/edit/:userId",authenticateToken, editComment);
-commentRoute.delete("/:userId", deleteComment);
+commentRoute.put("/:id",authenticateToken, editComment);
+commentRoute.delete("/:userId/:commentId", deleteComment);
 commentRoute.get("/",authenticateToken, getAllcomments)
 export default commentRoute

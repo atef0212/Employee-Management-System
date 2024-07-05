@@ -21,7 +21,7 @@ function WorkersSideBar() {
     }, [token]);
 
     return (
-        <div className="p-4 bg-gray-100 h-full w-[20%] mt-4">
+        <div className="p-4 bg-gray-100 h-full w-[20%] mt-4 absolute top-[13%]">
             <div className="space-y-4">
                 {users.map((user) => (
                     <div key={user.id} className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md">

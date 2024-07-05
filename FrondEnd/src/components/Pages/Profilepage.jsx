@@ -58,9 +58,9 @@ const UserProfile = () => {
 
   return (
 <>
-<Logout/>
 
-<div className="container mx-auto p-4 border-0 border-black w-[30%] mt-40">
+
+<div className="container mx-auto p-4 border-0 border-black w-[30%] mt-40 z-30 absolute right-0 top-[0%]">
       <h1 className="text-3xl font-bold mb-4">User Profile</h1>
       {userd ? (
         <div className="bg-white shadow-md rounded-lg p-6">
