@@ -276,34 +276,26 @@ const getAllcomments = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 }
-const editComment = async (req, res, next) => {
-  const { id } = req.params;
-  const {text } = req.body;
-
+const editComment = async (req, res) => {
   try {
-    // Find the existing user by ID and update with new data
-    const existingUser = await userModel.findByIdAndUpdate(id, text, { new: true });
+    const { commentId } = req.params;
+    const { text } = req.body;
 
-    if (!existingUser) {
-      return res.status(404).json({ msg: "User not found" });
+    const updatedComment = await commentModel.findByIdAndUpdate(commentId, { text }, { new: true });
+
+    if (!updatedComment) {
+      return res.status(404).json({ message: 'Comment not found' });
     }
 
-    // Save the updated user data
-    await existingUser.save();
-
-    // Send response
-    res.status(200).json({ msg: "User data updated successfully", existingUser });
-  } catch (error) {
-    // Handle errors
-    console.error("Error updating user data:", error);
-    res.status(500).json({ msg: "Internal Server Error" });
-    next(error);
+    res.json({ message: 'Comment updated successfully', updatedComment });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-};
+}
 
 const deleteComment= async (req, res) => {
   try {
-    const { userId, commentId } = req.params;
+    const { commentId } = req.params;
 
     const deletedComment = await commentModel.findByIdAndDelete(commentId);
 
