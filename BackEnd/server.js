@@ -14,8 +14,8 @@ app.use(cookieParser());
 
 console.log("hello World")
 app.use(cors({
-  //origin:["https://employee-management-s.onrender.com" || "http://localhost:5173"],
-  origin:[ "http://localhost:5173"],
+  origin:["https://employee-management-s.onrender.com" || "http://localhost:5173"],
+  //origin:[ "http://localhost:5173"],
   methods:["GET","POST","DELETE","PUT"],
   credentials:true
 }))

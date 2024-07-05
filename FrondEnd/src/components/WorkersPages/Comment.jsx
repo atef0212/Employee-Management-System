@@ -15,7 +15,7 @@ function Comment() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/comment/${user.userId}/comment`, {
+      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/comment/${user.userId}/comment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ function Comment() {
 
   return (
   <>
-      <div className='border-2 border-black w-[35%] absolute top-[15%] left-[30%] flex flex-col justify-center align-middle'>
+      <div className='border-0 border-black w-[35%] absolute top-[15%] left-[30%] flex flex-col justify-center align-middle'>
       <textarea
         value={comment}
         onChange={(e) => setComment(e.target.value)}

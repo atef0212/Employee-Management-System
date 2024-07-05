@@ -15,7 +15,7 @@ function Dashboard() {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users', {
+        const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/users', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -41,7 +41,7 @@ function Dashboard() {
 
   const deleteUser = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

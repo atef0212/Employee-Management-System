@@ -13,7 +13,7 @@ const UserProfile = () => {
     const fetchUser = async () => {
       if (!user) return;  // Check if user is available
       try {
-        const response = await fetch(`http://localhost:5000/api/users/${user.userId}`, {
+        const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/${user.userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ const UserProfile = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/api/users/edit/${user.userId}`, {
+      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/edit/${user.userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

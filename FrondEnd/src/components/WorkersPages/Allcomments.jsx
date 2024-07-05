@@ -1,7 +1,3 @@
-
-
-
-
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../share/Context';
 import 'tailwindcss/tailwind.css'; // Import Tailwind CSS
@@ -20,7 +16,7 @@ function AllComments() {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/comment', {
+        const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/comment', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -56,7 +52,7 @@ function AllComments() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/comment/${commentId}`, {
+      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/comment/${commentId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +79,7 @@ function AllComments() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/comment/${commentId}`, {
+      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/comment/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -118,11 +114,11 @@ function AllComments() {
   };
 
   return (
-    <div className="p-5 bg-gray-100 rounded-lg border-2 border-black w-full md:w-[35%] mx-auto mt-10 flex flex-col absolute top-[30%] left-[30%]">
+    <div className="p-5-100 rounded-lg w-[35%]  md:w-[35%]  mx-auto mt-10 flex flex-col absolute top-[30%] left-[31%]">
       <h2 className="text-2xl font-bold mb-5">Workers Comments</h2>
       {comments.length > 0 ? (
-        comments.slice(0, 7).map((comment) => (
-          <div key={comment._id} className="p-4 mb-4 border-b border-gray-200">
+        comments.map((comment) => (
+          <div key={comment._id} className="p-4 mb-4 bg-white border rounded-lg shadow-md">
             {editCommentId === comment._id ? (
               <div>
                 <textarea
@@ -184,4 +180,3 @@ function AllComments() {
 }
 
 export default AllComments;
-
