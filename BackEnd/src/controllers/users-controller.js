@@ -229,7 +229,7 @@ const comment = async (req, res) => {
 
     const newComment = new commentModel({
       userId: userId,
-      content: comments,
+      text: comments,
     });
 
     await newComment.save();
@@ -266,10 +266,15 @@ const getComment = async (req, res) => {
 const getAllcomments = async (req, res) => {
   try {
     const comments = await commentModel.find()
-    res.status(200).json({ comments });
-  } catch (error) {
-    console.error('Error fetching comments:', error);
-    res.status(500).json({ message: 'Error fetching comments', error: error.message });
+      .populate({
+        path: 'userId',
+        select: 'name avatarImg.url' // Only select the name and avatar image URL fields
+      })
+      .exec();
+
+    res.status(200).json(comments);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 }
 export  {getComment,getAllcomments,getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg,comment};

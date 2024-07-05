@@ -26,13 +26,13 @@ function AllComments() {
         if (response.ok) {
           const data = await response.json();
           console.log(data)
-          const dataC = data.comments;
+
    
 
           // Sort comments by createdAt in descending order
-       //   dataC.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-console.log(dataC)
-          setComments(dataC);
+       data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+          setComments(data);
         } else {
           const errorData = await response.json();
           console.error('Error fetching comments:', errorData.message);
@@ -43,15 +43,20 @@ console.log(dataC)
     };
 
     fetchComments();
-  }, [token]);
+  }, [ token]);
 
+ 
   return (
     <div className="p-5 bg-gray-100 rounded-lg border-2 border-black w-[35%] absolute top-[35%] left-[30%] flex flex-col justify-center align-middle">
       <h2 className="text-2xl font-bold mb-5">Workers Comments</h2>
       {comments.length > 0 ? (
         comments.slice(0, 7).map((comment) => (
-          <div key={comment._id} className="p-4 mb-4 border-b border-gray-300">
-            <p className="text-lg mb-2">{comment.content}</p>
+          <div key={comment._id} className="p-4 mb-4 border-b border-gray-200">
+            <div className="flex items-center mb-3">
+              <img src={comment.userId.avatarImg.url} alt={`${comment.userId.name}'s avatar`} className="w-10 h-10 rounded-full mr-3" />
+              <h3 className="text-lg font-semibold">{comment.userId.name}</h3>
+            </div>
+            <p className="text-base mb-2">{comment.text}</p>
             <small className="text-gray-500">{new Date(comment.createdAt).toLocaleString()}</small>
           </div>
         ))

@@ -27,8 +27,10 @@ function WorkersSideBar() {
                     <div key={user.id} className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md">
                         <img src={user.avatarImg.url} alt="Profile Avatar" className="w-16 h-16 rounded-full object-cover" />
                         <div>
-                            <p className="text-lg font-semibold">Name: {user.name}</p>
-                            <p className="text-sm text-gray-600">Country: {user.country}</p>
+                            <p className="text-lg font-semibold"> {user.name}</p>
+                            <p className="text-lg font-semibold"> {user.age}</p>
+
+                            <p className="text-lg font-semibold"> {user.land}</p>
                         </div>
                     </div>
                 ))}

@@ -30,8 +30,8 @@ function LogIn() {
 
       const { user, accessToken } = await response.json();
 
-      auth.dispatch({ type: 'LOGIN', payload: { user, token: accessToken  } });
-
+      auth.dispatch({ type: 'LOGIN', payload: { user, token: accessToken } });
+   
       if (user.role === 'admin') {
         navigate("/dashboard", { replace: true });
       } else {

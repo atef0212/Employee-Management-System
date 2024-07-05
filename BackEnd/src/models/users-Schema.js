@@ -39,12 +39,7 @@ const userSchema = new Schema({
     required: true,
     default: 28
   },
-  comments: {
-    type: String,
-    required: false,
-    minlength:6,
-    maxlength:25
-  },
+
   workHours: {
     type: Number,
     required: true,

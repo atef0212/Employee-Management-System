@@ -6,7 +6,6 @@ const UserProfile = () => {
   const [userd, setUser] = useState(null);
   const [editData, setEditData] = useState(null);
   const { user, token } = useContext(AuthContext);
-
   useEffect(() => {
     const fetchUser = async () => {
       if (!user) return;  // Check if user is available
