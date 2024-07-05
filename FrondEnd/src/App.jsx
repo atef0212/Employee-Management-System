@@ -23,6 +23,7 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/:id" element={<Comment />} />
             <Route path="/homeWorker" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboared />} />
             <Route path="/profilePage" element={<ProfilePage />} />
           </Route>
 

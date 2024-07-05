@@ -1,6 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from "../share/Context.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons/faHouseUser';
 import Logout from '../User/Logout';
+import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
   const [userd, setUser] = useState(null);
@@ -57,7 +60,7 @@ const UserProfile = () => {
 <>
 <Logout/>
 
-<div className="container mx-auto p-4">
+<div className="container mx-auto p-4 border-0 border-black w-[30%] mt-40">
       <h1 className="text-3xl font-bold mb-4">User Profile</h1>
       {userd ? (
         <div className="bg-white shadow-md rounded-lg p-6">
@@ -152,6 +155,12 @@ const UserProfile = () => {
         <p className="text-center text-gray-500">Loading...</p>
       )}
     </div>
+    <Link
+                    to="/homeWorker"
+                    className="absolute top-7 left-7"
+                  >
+                <FontAwesomeIcon icon={faHouseUser} size="2xl" style={{color: "#74C0FC",}} />
+                  </Link>
 </>
    
   );
