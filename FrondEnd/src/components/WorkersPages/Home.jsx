@@ -26,7 +26,7 @@ function Home() {
             
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                  <Link
+                <Link
                     to="/homeWorker"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                   >
@@ -38,7 +38,12 @@ function Home() {
                     >
                       Profile 
                     </Link>
-             
+                    <Link
+                      to="/dashboard"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    >
+                      dashboard 
+                    </Link>
                 </div>
               </div>
             </div>

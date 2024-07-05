@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import Logout from '../User/Logout.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons/faHouseUser';
 import { AuthContext } from '../share/Context.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -120,6 +122,12 @@ function Dashboard() {
         </div>
       </main>
  <Logout />
+ <Link
+                    to="/homeWorker"
+                    className="absolute top-7 left-7"
+                  >
+                <FontAwesomeIcon icon={faHouseUser} size="2xl" style={{color: "#74C0FC",}} />
+                  </Link>
     </div>
   );
 }

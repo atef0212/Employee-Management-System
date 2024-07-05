@@ -1,9 +1,11 @@
 import exress from "express"
 import { authenticateToken, refreshAccessToken } from "../maddleWare/check-auth.js";
-import { comment, getAllcomments } from "../controllers/users-controller.js";
-import { commentVali } from "../maddleWare/useValidator.js";
+import { comment, getAllcomments, editComment, deleteComment } from "../controllers/users-controller.js";
+
 const commentRoute=exress.Router()
 
-commentRoute.post("/:userId/comment",authenticateToken,refreshAccessToken,commentVali, comment);
+commentRoute.post("/:userId/comment",authenticateToken, comment);
+commentRoute.put("/edit/:userId",authenticateToken, editComment);
+commentRoute.delete("/:userId", deleteComment);
 commentRoute.get("/",authenticateToken, getAllcomments)
 export default commentRoute

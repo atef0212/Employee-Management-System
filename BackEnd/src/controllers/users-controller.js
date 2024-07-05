@@ -277,4 +277,43 @@ const getAllcomments = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 }
-export  {getComment,getAllcomments,getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg,comment};
+const editComment = async (req, res, next) => {
+  const userId = req.params.userId; // assuming the comment ID is passed as a URL parameter
+  const { text } = req.body;
+  console.log(req.body)
+
+  try {
+    // Update the comment
+    const updatedComment = await commentModel.findByIdAndUpdate(userId, { text: newText },
+      { new: true, runValidators: true });
+
+    if (!updatedComment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    // Send response
+    res.status(200).json({ msg: "Comment updated successfully", updatedComment });
+    console.log(updatedComment);
+    console.log(text)
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    next(error);
+  }
+};
+
+const deleteComment=async (req, res) => {
+  try {
+      const userId = req.params.userId;
+
+      const deletedComment = await commentModel.findByIdAndDelete(userId);
+
+      if (!deletedComment) {
+          return res.status(404).json({ message: 'Comment not found' });
+      }
+
+      res.json({ message: 'Comment deleted successfully' });
+  } catch (err) {
+      res.status(500).json({ message: err.message });
+  }
+}
+export  {getComment,getAllcomments,getUsers, signup, login, logout, editEmployeedata, deleteUser, getUserById, uploadAvatarImg,comment, editComment, deleteComment};
