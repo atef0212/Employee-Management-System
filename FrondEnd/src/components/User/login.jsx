@@ -16,7 +16,7 @@ function LogIn() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${url_Api}users/login/`, {
+      const response = await fetch(`${url_Api}/api/users/login/`, {
         method: "POST",
         credentials: "include",
         headers: {
