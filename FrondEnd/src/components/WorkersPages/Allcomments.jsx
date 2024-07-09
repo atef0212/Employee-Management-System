@@ -16,7 +16,7 @@ function AllComments() {
       }
 
       try {
-        const response = await fetch(`${url_Api}comment`, {
+        const response = await fetch(`https://employee-management-s.onrender.com/api/comment`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ function AllComments() {
     }
 
     try {
-      const response = await fetch(`${url_Api}comment/${commentId}`, {
+      const response = await fetch(`https://employee-management-s.onrender.com/api/comment/${commentId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ function AllComments() {
     }
 
     try {
-      const response = await fetch(`${url_Api}comment/${commentId}`, {
+      const response = await fetch(`https://employee-management-s.onrender.com/api/comment/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

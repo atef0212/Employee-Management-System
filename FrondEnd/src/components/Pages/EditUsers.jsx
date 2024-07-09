@@ -17,7 +17,7 @@ function EditUser() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${url_Api}users/${id}`, {
+        const response = await fetch(`https://employee-management-s.onrender.com/api/users/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -46,7 +46,7 @@ function EditUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${url_Api}users/edit/${id}`, {
+      const response = await fetch(`https://employee-management-s.onrender.com/api/users/edit/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

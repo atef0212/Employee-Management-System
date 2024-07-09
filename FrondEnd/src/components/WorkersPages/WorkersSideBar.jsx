@@ -7,7 +7,7 @@ function WorkersSideBar() {
 
     useEffect(() => {
         const getAllUsers = async () => {
-            const response = await fetch(`${url_Api}users`, {
+            const response = await fetch(`https://employee-management-s.onrender.com/api/users`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

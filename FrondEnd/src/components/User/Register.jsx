@@ -32,7 +32,7 @@ const Register = () => {
     formData.append('image', image);
 
     try {
-      const response = await fetch(`${url_Api}users/signup`, {
+      const response = await fetch(`https://employee-management-s.onrender.com/api/users/signup`, {
         method: 'POST',
         body: formData,
       });

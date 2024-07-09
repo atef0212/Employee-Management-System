@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../share/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-//import url_Api from "../../api";
+import url_Api from "../../api";
 
 function LogIn() {
   const navigate = useNavigate();

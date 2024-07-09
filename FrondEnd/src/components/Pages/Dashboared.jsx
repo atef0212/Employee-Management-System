@@ -21,7 +21,7 @@ function Dashboard() {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await fetch(`${url_Api}users`, {
+        const response = await fetch(`https://employee-management-s.onrender.com/api/users`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -51,7 +51,7 @@ function Dashboard() {
       return;
     }
     try {
-      const response = await fetch(`${url_Api}users/${id}`, {
+      const response = await fetch(`https://employee-management-s.onrender.com/api/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
