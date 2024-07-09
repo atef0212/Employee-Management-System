@@ -6,6 +6,6 @@ const commentRoute=exress.Router()
 
 commentRoute.post("/:userId/comment",authenticateToken, comment);
 commentRoute.put("/:commentId",authenticateToken, editComment);
-commentRoute.delete("/:commentId", deleteComment);
+commentRoute.delete("/:commentId",authenticateToken, deleteComment);
 commentRoute.get("/",authenticateToken, getAllcomments)
 export default commentRoute
