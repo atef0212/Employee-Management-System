@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../share/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import url_Api from "../../api";
+//import url_Api from "../../api";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function LogIn() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${url_Api}users/login/`, {
+      const response = await fetch(`https://employee-management-s.onrender.com/api/users/login/`, {
         method: "POST",
         credentials: "include",
         headers: {
