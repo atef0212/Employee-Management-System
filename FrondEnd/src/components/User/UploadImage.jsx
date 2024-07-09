@@ -1,6 +1,6 @@
 import  { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import url_Api from "../../api";
 function UploadImage() {
     const id=useParams()
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ function UploadImage() {
       let formData = new FormData();
       formData.append("image", data.image);
       formData.append("name", data.name);
-      const res = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/upload-avatar/${id}`, {
+      const res = await fetch(`${url_Api}users/upload-avatar/${id}`, {
         method: "POST",
         body: formData,
       });

@@ -1,8 +1,10 @@
 // EditUser.jsx
 import { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../share/Context.jsx';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons/faHouseUser';
+import url_Api from '../../api.js';
 function EditUser() {
   const { id } = useParams(); // Get the user ID from the URL parameters
   const { state } = useContext(AuthContext);
@@ -15,7 +17,7 @@ function EditUser() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/${id}`, {
+        const response = await fetch(`${url_Api}users/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -44,7 +46,7 @@ function EditUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/users/edit/${id}`, {
+      const response = await fetch(`${url_Api}users/edit/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +74,8 @@ function EditUser() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+    <>
+ <form onSubmit={handleSubmit} className="max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Edit User</h2>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
@@ -123,6 +126,15 @@ function EditUser() {
         Save Changes
       </button>
     </form>
+
+<Link
+                    to="/homeWorker"
+                    className="absolute top-7 left-7"
+                  >
+                <FontAwesomeIcon icon={faHouseUser} size="2xl" style={{color: "#74C0FC",}} />
+                  </Link>
+    </>
+   
   );
 }
 

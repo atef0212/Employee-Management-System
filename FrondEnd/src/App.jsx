@@ -24,6 +24,7 @@ function App() {
             <Route path="/:id" element={<Comment />} />
             <Route path="/homeWorker" element={<Home />} />
             <Route path="/dashboard" element={<Dashboared />} />
+            <Route path="/edit/:id" element={<EditUsers />} />
             <Route path="/profilePage" element={<ProfilePage />} />
           </Route>
 
@@ -31,7 +32,7 @@ function App() {
           
           <Route path="/jobOffers" element={<JobOffers />} />
           <Route path="/dashboard" element={<Dashboared />} />
-          <Route path="/edit/:id" element={<EditUsers />} />
+         
         </Routes>
       </BrowserRouter>
     </>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../share/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import url_Api from "../../api";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function LogIn() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/users/login/', {
+      const response = await fetch(`${url_Api}users/login/`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -31,7 +32,7 @@ function LogIn() {
       const { user, accessToken } = await response.json();
 
       auth.dispatch({ type: 'LOGIN', payload: { user, token: accessToken } });
-   
+
       if (user.role === 'admin') {
         navigate("/dashboard", { replace: true });
       } else {
@@ -50,7 +51,7 @@ function LogIn() {
 
   return (
     <>
-      <div onClick={handleSideBar} className="mt-[-106%] ml-72">
+      <div onClick={handleSideBar} className="fixed top-8 left-[13%] z-50">
         <FontAwesomeIcon icon={faUserPlus} size="xl" style={{ color: "#74C0FC" }} />
       </div>
       <div className={`fixed top-0 left-0 h-full transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} w-[250px] bg-gray-900 text-white`}>

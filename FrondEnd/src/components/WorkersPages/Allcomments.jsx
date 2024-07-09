@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../share/Context';
 import 'tailwindcss/tailwind.css'; // Import Tailwind CSS
-
+import url_Api from '../../api';
 function AllComments() {
   const { token } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
@@ -16,7 +16,7 @@ function AllComments() {
       }
 
       try {
-        const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/comment', {
+        const response = await fetch(`${url_Api}comment`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ function AllComments() {
     }
 
     try {
-      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/comment/${commentId}`, {
+      const response = await fetch(`${url_Api}comment/${commentId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ function AllComments() {
     }
 
     try {
-      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/comment/${commentId}`, {
+      const response = await fetch(`${url_Api}comment/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

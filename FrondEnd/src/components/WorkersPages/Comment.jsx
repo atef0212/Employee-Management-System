@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../share/Context';
-
+import url_Api from '../../api';
 function Comment() {
   const { token, user } = useContext(AuthContext);
   const [comment, setComment] = useState('');
@@ -15,7 +15,7 @@ function Comment() {
     }
 
     try {
-      const response = await fetch(`https://employee-management-system-pgdc.onrender.com/api/comment/${user.userId}/comment`, {
+      const response = await fetch(`${url_Api}comment/${user.userId}/comment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

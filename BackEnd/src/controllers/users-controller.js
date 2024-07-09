@@ -133,6 +133,7 @@ const signup = async (req, res) => {
     });
     await newUser.save();
     res.status(201).json({ msg: "New user added", newUser: newUser });
+    console.log("new User", newUser)
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Internal Server Error" });

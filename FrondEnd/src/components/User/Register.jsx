@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import url_Api from '../../api';
 const Register = () => {
   const nav = useNavigate();
 
@@ -32,7 +32,7 @@ const Register = () => {
     formData.append('image', image);
 
     try {
-      const response = await fetch('https://employee-management-system-pgdc.onrender.com/api/users/signup', {
+      const response = await fetch(`${url_Api}users/signup`, {
         method: 'POST',
         body: formData,
       });

@@ -25,21 +25,30 @@ function Home() {
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             
-              <div className="hidden sm:ml-6 sm:block">
+              <div>
                 <div className="flex space-x-4">
-            
-                  {/* <Link
-                      to="/profilePage"
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    >
-                      Profile 
-                    </Link> */}
                     <Link
                       to="/dashboard"
                       className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >
-                      dashboard 
+                      Dashboard 
                     </Link>
+                </div>
+              </div>
+              <div className="block sm:hidden">
+                <div className="flex space-x-4">
+                    <Link
+                      to="/profilePage"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    >
+                      Profile 
+                    </Link>
+                    {/* <Link
+                      to="/workerSideBar"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    >
+                      WorkerSideBar 
+                    </Link> */}
                 </div>
               </div>
             </div>
@@ -57,14 +66,14 @@ function Home() {
           </div>
         </div>
       </nav>
-      <div className="p-4">
-   
+      <div className="p-4 hidden sm:block">
         <WorkersSideBar />
       </div>
-      <Comment/>
-    <AllComments/>
-    <UserProfile/>
-   
+      <div className="p-4 hidden sm:block">
+        <UserProfile />
+      </div>
+      <Comment />
+      <AllComments />
     </>
   );
 }

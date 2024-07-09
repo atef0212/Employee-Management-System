@@ -25,7 +25,7 @@ userRoute.post("/signup",cloudinaryMulter.single("image"), useValidator, validat
 userRoute.post("/login", logInValidator, validate, login);
 userRoute.put("/edit/:id",authenticateToken, editEmployeedata);
 userRoute.get("/:id", getUserById);
-userRoute.delete("/:id",isAdmin, deleteUser);
+userRoute.delete("/:id",authenticateToken,isAdmin, deleteUser);
 userRoute.post("/logout", logout);
 userRoute.get("/:userId//comment",getComment )
   .route("/upload-avatar/:id")
