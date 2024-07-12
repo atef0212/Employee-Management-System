@@ -74,22 +74,31 @@ const editEmployeedata = async (req, res, next) => {
 
 
 
-const deleteUser=async (req, res)=>{
-  let {id}=req.params
-  try {
-    const deletedUser = await userModel.findByIdAndDelete(id);
-console.log(deleteUser)
+const deleteUser= async (req, res) => {
+  let { id } = req.params;
 
-    if (!deletedUser) {
+  try {
+    // Find the user by id
+    const userToDelete = await userModel.findById(id);
+
+    if (!userToDelete) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    return res.status(200).json({ msg: 'User deleted successfully' });
+    // Check if the user is an admin
+    if (userToDelete.role === 'admin') {
+      return res.status(403).json({ error: 'Cannot delete admin user' });
+    }
+
+    // Proceed to delete the user if not an admin
+    const deletedUser = await userModel.findByIdAndDelete(id);
+
+    return res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
     console.error('Error deleting user:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
 
 const signup = async (req, res) => {
   try {

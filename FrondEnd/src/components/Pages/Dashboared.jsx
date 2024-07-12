@@ -14,9 +14,6 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const userRole = user.role;
-  const id = user.userId;
-
-  console.log(userRole);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -51,7 +48,7 @@ function Dashboard() {
       return;
     }
     try {
-      const response = await fetch(`${url_Api}/api/users/${id}`, {
+      const response = await fetch(`${url_Api}/api/users/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -60,8 +57,12 @@ function Dashboard() {
       if (!response.ok) {
         throw new Error('Failed to delete user');
       }
-      console.log(`User with ID: ${user.userId} deleted successfully`);
-      setUsers(users.filter(user => user._id !== userId)); // Remove deleted user from state
+
+      console.log(`User with ID: ${userId} deleted successfully`);
+      
+      // Remove the deleted user from the state
+      setUsers(users.filter(user => user._id !== userId));
+
     } catch (error) {
       console.error('Error deleting user:', error.message);
     }

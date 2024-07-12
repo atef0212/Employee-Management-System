@@ -1,9 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../share/Context.jsx";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseUser } from '@fortawesome/free-solid-svg-icons/faHouseUser';
-import { Link } from 'react-router-dom';
-import url_Api from '../../api.js';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouseUser } from "@fortawesome/free-solid-svg-icons/faHouseUser";
+import { faCircle } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
+import url_Api from "../../api.js";
 
 const UserProfile = () => {
   const [userd, setUser] = useState(null);
@@ -16,7 +17,7 @@ const UserProfile = () => {
       try {
         const response = await fetch(`${url_Api}/api/users/${user.userId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         const data = await response.json();
@@ -24,7 +25,7 @@ const UserProfile = () => {
         setUser(profData);
         console.log(profData);
       } catch (error) {
-        console.error('There was an error fetching the user!', error);
+        console.error("There was an error fetching the user!", error);
       }
     };
 
@@ -39,28 +40,28 @@ const UserProfile = () => {
     e.preventDefault();
     try {
       const response = await fetch(`${url_Api}/api/users/edit/${user.userId}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(editData),
       });
       const data = await response.json();
-      if (data.msg === 'User data updated successfully') {
+      if (data.msg === "User data updated successfully") {
         setUser(data.existingUser);
         alert(data.msg);
         setEditData(null);
       }
     } catch (error) {
-      console.error('There was an error updating the user!', error);
+      console.error("There was an error updating the user!", error);
     }
   };
 
   return (
     <>
       <div className="container mx-auto p-4 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mt-10 sm:mt-20 absolute top-11 right-0">
-        <h1 className="text-3xl font-bold mb-4">User Profile</h1>
+        <h1 className="text-3xl font-bold mb-4"> User Profile</h1>
         {userd ? (
           <div className="bg-white shadow-md rounded-lg p-6">
             {editData ? (
@@ -116,7 +117,10 @@ const UserProfile = () => {
                   placeholder="Email"
                 />
                 <div className="flex space-x-4">
-                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
                     Update
                   </button>
                   <button
@@ -131,14 +135,35 @@ const UserProfile = () => {
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
-                  <img src={userd.avatarImg.url} alt="Profile Avatar" className="w-16 h-16 rounded-full" />
+                  <img
+                    src={userd.avatarImg.url}
+                    alt="Profile Avatar"
+                    className="w-16 h-16 rounded-full"
+                  />
                   <div>
+                    <div className="flex gap-4">
+                      <h1>
+                        {" "}
+                        <FontAwesomeIcon
+                          icon={faCircle}
+                          beat
+                          size="lg"
+                          style={{ color: "#1efa05" }}
+                        />
+                      </h1>{" "}
+                      <h1 className="text-lg font-extrabold">Online</h1>
+                    </div>
+
                     <p className="text-lg font-semibold">Name: {userd.name}</p>
-                    <p>Age: {userd.age}</p>
-                    <p>Tall: {userd.tall}</p>
-                    <p>Land: {userd.land}</p>
-                    <p>Gender: {userd.gender}</p>
-                    <p>Email: {userd.email}</p>
+                    <p className="text-lg font-semibold">Age: {userd.age}</p>
+                    <p className="text-lg font-semibold">Tall: {userd.tall}</p>
+                    <p className="text-lg font-semibold">Land: {userd.land}</p>
+                    <p className="text-lg font-semibold">
+                      Gender: {userd.gender}
+                    </p>
+                    <p className="text-lg font-semibold">
+                      Email: {userd.email}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -155,7 +180,11 @@ const UserProfile = () => {
         )}
       </div>
       <Link to="/homeWorker" className="absolute top-7 left-7">
-        <FontAwesomeIcon icon={faHouseUser} size="2xl" style={{ color: "#74C0FC" }} />
+        <FontAwesomeIcon
+          icon={faHouseUser}
+          size="2xl"
+          style={{ color: "#74C0FC" }}
+        />
       </Link>
     </>
   );
