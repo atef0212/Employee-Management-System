@@ -114,7 +114,7 @@ function AllComments() {
   };
 
   return (
-    <div className="p-5-100 rounded-lg w-[35%]  md:w-[35%]  mx-auto mt-10 flex flex-col absolute top-[30%] left-[31%]">
+    <div className="p-5-100 rounded-lg w-[35%]  md:w-[35%]  mx-auto mt-10 flex flex-col absolute top-[35%] left-[31%]">
       <h2 className="text-2xl font-bold mb-5">Workers Comments</h2>
       {comments.length > 0 ? (
         comments.map((comment) => (
